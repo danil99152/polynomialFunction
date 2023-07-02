@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  db:
+    container_name: polynomdb
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: polynom
+    volumes:
+      - ./data:/var/lib/postgresql/data
+networks:
+  default:
+    name: postgre-service_default

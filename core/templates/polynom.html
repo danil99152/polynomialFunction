@@ -1,0 +1,57 @@
+<fieldset>
+<legend>
+    <h1>Полиномиальная функция</h1>
+</legend>
+
+    <label for="target_values">Целевые значения</label>
+    <input type='text' id="target_values"/>
+    <br/>
+
+    <label for="feature_values">Значения признака</label>
+    <input type='text' id="feature_values"/>
+    <br/>
+
+    <label for="degree">Степень полинома</label>
+    <input type='text' id="degree"/>
+    <br/>
+</fieldset>
+<fieldset>
+    <button id='submit-config' onclick="submitButton()"> Отправить </button>
+</fieldset>
+<fieldset>
+        <label for="predicted_values"> Предсказанные значения: </label><br/>
+        <fieldset id='predicted_values'></fieldset><br/>
+</fieldset>
+<fieldset>
+        <label for="model_parameters"> Вектор параметров модели: </label><br/>
+        <fieldset id='model_parameters'></fieldset><br/>
+</fieldset>
+<script>
+   async function submitButton(){
+        const body = JSON.stringify({
+            'target_values': JSON.parse("[" + document.getElementById('target_values').value + "]"),
+            'feature_values': JSON.parse("[" + document.getElementById('feature_values').value + "]"),
+            'degree': document.getElementById('degree').value,
+        });
+        let response = await fetch('/polynomial/', {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            body: body
+        });
+        let data = await response.json();
+        let predicted_values = data.predicted_values;
+        let model_parameters = data.model_parameters;
+
+       for (const [_, value] of Object.entries(predicted_values)) {
+           document.getElementById('predicted_values').innerHTML += `<fieldset>${value}</fieldset><br/>`
+       }
+       for (const [_, value] of Object.entries(model_parameters)) {
+           document.getElementById('model_parameters').innerHTML += `<fieldset>${value}</fieldset><br/>`
+       }
+
+       console.log('data:', data)
+    }
+</script>
