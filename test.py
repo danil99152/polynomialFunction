@@ -8,7 +8,7 @@ def api_url():
 
 
 def test_fit_polynomial(api_url):
-    # Тестирование функции fit_polynomial через HTTP запросы
+    # Тестирование функции polynomial через HTTP запросы
 
     # Входные данные
     target_values = [27, 6, 72, 4, 7, -86, -10, 24, -14, -92]
